@@ -1,0 +1,22 @@
+import nibabel as nib
+import numpy as np
+import imageio
+import os
+ 
+def read_niifile(niifile):           
+    img = nib.load(niifile)          
+    img_fdata = img.get_fdata()      
+    return img_fdata
+ 
+def save_fig(file):                  
+    fdata = read_niifile(file)       
+    (x,y,z) = fdata.shape            
+    for k in range(z):
+        silce = fdata[k,:,:]         
+        imageio.imwrite(os.path.join(savepicdir,'{}.png'.format(k)),silce)
+                                     
+ 
+dir = 'nii/segmentation-28.nii'                       
+savepicdir = 'save/'                      
+os.mkdir(savepicdir)                 
+save_fig(dir) 
